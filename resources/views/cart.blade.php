@@ -37,41 +37,40 @@
             </div>
         </div>
         <?php $total = 0 ?>
-        @if(session('cart'))
-            @foreach (session('cart') as $id=> $details)
-                <?php $total += $details['price'] * $details['quantity']?>
+        @if(count($carts) > 0)
+            @foreach ($carts as $cart)
                 <div class="row">
                     <hr>
                     <div class="col-md-2">
-                        <p>{{ $details['title'] }}</p>
+                        <p>{{ $cart->book->title }}</p>
                     </div>
                     <div class="col-md-2">
-                        <p>{{ $details['author'] }}</p>
+                        <p>{{ $cart->book->author }}</p>
                     </div>
                     <div class="col-md-1">
-                        <p>{{ $details['price'] }}</p>
+                        <p>{{ $cart->book->price }}</p>
                     </div>
                     <div class="col-md-2">
-                        @if ($details['quantity'] < 2)
-                            <p>{{ $details['quantity'] }} book</p>  
+                        @if ($cart->quantity < 2)
+                            <p>{{ $cart->quantity }} book</p>  
                         @else
-                            <p>{{ $details['quantity'] }} books</p> 
+                            <p>{{ $cart->quantity }} books</p> 
                         @endif
                     </div>
                     <div class="col-md-2">
-                        <p>{{ $details['price'] * $details['quantity']}} </p>
+                        <p>{{ $cart->book->price * $cart->quantity}} </p>
                     </div>
                     <div class="col-sm-3 gap-2 d-flex">
                         <form class="d-inline">
-                            <a href="/book-detail/{{ $id }}/{{ $details['quantity'] }}" class="btn btn-sm btn-primary d-inline">
+                            <a href="/book-detail/{{ $cart->book_id }}/{{ $cart->quantity }}/{{$cart->id}}" class="btn btn-sm btn-primary d-inline">
                                 Edit
                             </a>
                         </form>
                         
-                        <form action="/delete-cart" method="post" class="d-inline">
+                        <form action="/delete-cart/{{$cart->id}}" method="post" class="d-inline">
                             {{ csrf_field() }}
                             {{ method_field('delete') }}
-                            <input type="hidden" name="book_id" value="{{ $id }}">
+                            <input type="hidden" name="book_id" value="{{ $cart->book_id }}">
                             <button class="btn btn-sm btn-danger" type="submit">Remove</button>
                         </form>
 

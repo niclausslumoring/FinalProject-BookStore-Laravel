@@ -18,4 +18,8 @@ class Book extends Model
     	return $this->hasMany(TransactionDetail::class);
     }
 
+    public function cart(){
+    	return $this->hasMany(Cart::class);
+    }
+
 }

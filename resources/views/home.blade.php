@@ -59,7 +59,7 @@
         .clear-button{
             /* width: 100px; */
         }
-    </style>
+    </style>    
 </head>
 <body>
 @extends('layout')

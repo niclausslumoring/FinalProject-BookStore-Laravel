@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Cart;
 use App\Models\Genre;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
@@ -124,69 +125,60 @@ class BookController extends Controller
     }
 
     public function cart(){
-        return view('cart');
+        $userId = auth()->user()->id;
+        $carts = Cart::all()->where('user_id', $userId);
+        // dd($carts);
+        return view('cart', [
+            "carts"=>$carts
+        ]);
     }
 
-    public function addtoCart(Request $request, $id){
-        $book = Book::find($id);
-        $cart = session()->get('cart', []);
-        $quantity = $request->quantity;
-    
-        if (isset($cart[$id])) {
-            $quantity += $cart[$id]['quantity'];
-        }
-    
-        $cart[$id]=[
-            "title"=>$book->title,
-            "quantity"=>$quantity,
-            "author"=>$book->author,
-            "price"=>$book->price
-        ];
-    
-        session()->put('cart',$cart);
-    
+    public function addtoCart(Request $request, Book $book){
+        $userId = auth()->user()->id;
+
+        $existingCart = Cart::where('user_id', $userId)
+                            ->where('book_id', $book->id)
+                            ->first();
+
+        // Add ke cart
+        $cart = new Cart();
+        $cart->user_id = $userId;
+        $cart->book_id = $book->id;
+        $cart->quantity = $request->quantity;
+
+        $cart->save();
+
         return redirect()->back()->with('toast_success','Book added to cart successfully!');
     }
     
     public function editCart(Request $request, $id){
-        $book = Book::find($id);
-        $cart = session()->get('cart', []);
-        $quantity = $request->quantity;
-       
-        $cart[$id]=[
-            "title"=>$book->title,
-            "quantity"=>$quantity,
-            "author"=>$book->author,
-            "price"=>$book->price
-        ];
-    
-        session()->put('cart',$cart);
+        // $cart = Cart::where('id',$id)->get();
+        $cart = Cart::all()->where('book_id',$request->id);
+        // dd($cart[0]->quantity);
+        $cart[0]->quantity = $request->quantity;
+        $cart[0]->save();
+
     
         return redirect()->back()->with('toast_success','Book added to cart successfully!');
     }
 
     public function deleteCart(Request $request){
-        $book_id = $request->input('book_id');
-        $cart = session('cart');
-        if (isset($cart[$book_id])) {
-            unset($cart[$book_id]);
-            session(['cart' => $cart]);
-        }
-        return redirect()->back()->with('toast_success','This selected book has successfully deleted !');
+
+        Cart::destroy($request->id);
+
+        return redirect()->back()->with('toast_success','Delete successful!');
     }
 
     public function checkout(Request $request){
-        
-        
+
         return redirect()->back()->with('toast_success','Checkout successful!');
     }
 
     public function accessSessionData(Request $request) {
         if($request->session()->has('cart'))
-            $cart = $request->session()->get('cart');
-            dd($cart);
-
-     }
+        $cart = $request->session()->get('cart');
+        dd($cart);
+    }
     public function showAbout()
     {
         return view('aboutus');

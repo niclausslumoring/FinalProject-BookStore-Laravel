@@ -23,7 +23,7 @@ class PasswordController extends Controller
         $request->validate([
             'current_pass' => ['required', new CheckOldPassword],
             'new_pass' => 'required|min:8|different:current_pass',
-            'new_confirm_pass'=>'same:new_pass|required',
+            'new_confirm_pass'=>'same   :new_pass|required',
         ]);
         User::find(auth()->user()->id)->update(['password'=>Hash::make($request->new_pass)]);
         Alert::success('Password', 'has changed');

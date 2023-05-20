@@ -67,17 +67,17 @@
                     </div>
                 </div>
             </div>
-            <div class="row mb-3">
-                <label for="exampleFormControlInput1" class="col-sm-2 col-form-label">Cover</label>
-                <div class="col-sm-10">
-                    <input class="form-control @error('cover') is-invalid @enderror" name="cover" type="file" id="formFile">
-                    <div class="row">
-                        <span style="color: red">@error('cover')
-                            {{ 'Cover is required'}}
-                        @enderror</span>
+                <div class="row mb-3">
+                    <label for="exampleFormControlInput1" class="col-sm-2 col-form-label">Cover</label>
+                    <div class="col-sm-10">
+                        <input class="form-control @error('cover') is-invalid @enderror" name="cover" type="file" id="formFile">
+                        <div class="row">
+                            <span style="color: red">@error('cover')
+                                {{ 'Cover is required'}}
+                            @enderror</span>
+                        </div>
                     </div>
                 </div>
-            </div>
             <button type="submit" class="btn btn-primary">Import</button>
         </form>
     </div>

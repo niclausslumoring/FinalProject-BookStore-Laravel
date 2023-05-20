@@ -43,16 +43,16 @@ Route::put('/update-genre/{id}',[GenreController::class,'updateGenre']);
 Route::delete('/delete-genre/{id}',[GenreController::class,'deleteGenre']);
 
 Route::put('/update-book/{id}',[BookController::class,'updateBook']);
-Route::get('/book-detail/{id}/{qty}',[BookController::class,'showBookEditDetail']);
+Route::get('/book-detail/{id}/{qty}/{id2}',[BookController::class,'showBookEditDetail']);
 Route::get('/book-detail/{id}',[BookController::class,'showBookDetail']);
 Route::post('/manage-book',[BookController::class,'insertBook']);
 Route::delete('/delete-book/{id}',[BookController::class,'deleteBook']);
 Route::get('/',[BookController::class,'booksHome']);
 Route::get('/search',[BookController::class,'search']);
 Route::get('/aboutus',[BookController::class,'showAbout']);
-Route::get('/cart/{id}',[BookController::class,'addtoCart']);
+Route::get('/cart/{book}',[BookController::class,'addtoCart']);
 Route::get('/edit-cart/{id}',[BookController::class,'editCart']);
-Route::delete('/delete-cart',[BookController::class,'deleteCart']);
+Route::delete('/delete-cart/{id}',[BookController::class,'deleteCart']);
 
 Route::post('/change-password',[PasswordController::class,'changePass']);
 
