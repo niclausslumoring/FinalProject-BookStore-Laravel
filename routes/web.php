@@ -24,7 +24,7 @@ Route::group(['middleware'=>'member'],function(){
     Route::get('/cart',[BookController::class,'cart']);
     Route::get('/checkout-cart',[BookController::class,'checkout']);
     Route::get('/transaction-history',[UserController::class,'transactionHistory']);
-    Route::get('/transaction-detail',[UserController::class,'transactionDetail']);
+    Route::get('/transaction-detail/{id}',[UserController::class,'transactionDetail']);
 });
 
 Route::get('/profile-page',[UserController::class,'profilePage'])->middleware('loggedin');

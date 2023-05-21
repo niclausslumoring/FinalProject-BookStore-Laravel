@@ -99,17 +99,13 @@ class UserController extends Controller
     }
 
     public function transactionHistory(){
-        $transaction = Transaction::all();
-        $user = User::all();
-        return view('transaction_history',compact('transaction','user'));
+        $transaction = Transaction::all()->where("userid", auth()->user()->id);
+        return view('transaction_history',compact('transaction'));
     }
 
-    public function transactionDetail(){
-        $transDetail = TransactionDetail::all();
-        $transaction = Transaction::all();
-        $book = Book::all();
-        $user = User::all();
-        return view('transaction_detail',compact('transDetail','user','transaction','book'));
+    public function transactionDetail(Request $request){
+        $transDetail = TransactionDetail::all()->where("transaction_id", $request->id);
+        return view('transaction_detail',compact('transDetail'));
     }
     
     public function updateProfile(Request $request, $id){

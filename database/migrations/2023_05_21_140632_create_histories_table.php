@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTransactiondetailsTable extends Migration
+class CreateHistoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateTransactiondetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('transactiondetails', function (Blueprint $table) {
+        Schema::create('histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('book_id')->constrained();
-            $table->foreignId('transaction_id')->constrained();
-            $table->integer('quantity');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ class CreateTransactiondetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transactiondetails');
+        Schema::dropIfExists('histories');
     }
 }

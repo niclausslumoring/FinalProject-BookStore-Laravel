@@ -127,7 +127,6 @@ class BookController extends Controller
     public function cart(){
         $userId = auth()->user()->id;
         $carts = Cart::all()->where('user_id', $userId);
-        // dd($carts);
         return view('cart', [
             "carts"=>$carts
         ]);
@@ -135,42 +134,43 @@ class BookController extends Controller
 
     public function addtoCart(Request $request, Book $book){
         $userId = auth()->user()->id;
-
         $existingCart = Cart::where('user_id', $userId)
                             ->where('book_id', $book->id)
                             ->first();
-
-        // Add ke cart
         $cart = new Cart();
         $cart->user_id = $userId;
         $cart->book_id = $book->id;
         $cart->quantity = $request->quantity;
-
         $cart->save();
 
         return redirect()->back()->with('toast_success','Book added to cart successfully!');
     }
     
     public function editCart(Request $request, $id){
-        // $cart = Cart::where('id',$id)->get();
         $cart = Cart::all()->where('book_id',$request->id);
-        // dd($cart[0]->quantity);
         $cart[0]->quantity = $request->quantity;
         $cart[0]->save();
-
-    
         return redirect()->back()->with('toast_success','Book added to cart successfully!');
     }
 
     public function deleteCart(Request $request){
-
         Cart::destroy($request->id);
-
         return redirect()->back()->with('toast_success','Delete successful!');
     }
 
-    public function checkout(Request $request){
-
+    public function checkout(){
+        $cart = Cart::all()->where("user_id", auth()->user()->id);
+        foreach($cart as $c){
+            $history = new Transaction();
+            $history->userid = auth()->user()->id;
+            $history->save();
+            $transDetail = new TransactionDetail();
+            $transDetail->book_id = $c->book_id;
+            $transDetail->transaction_id = $history->id;
+            $transDetail->quantity = $c->quantity;
+            $transDetail->save();
+            Cart::destroy($c->id);
+        }
         return redirect()->back()->with('toast_success','Checkout successful!');
     }
 

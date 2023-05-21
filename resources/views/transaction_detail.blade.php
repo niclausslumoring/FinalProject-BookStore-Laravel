@@ -24,36 +24,30 @@
             </div>
         </div>
         <?php $total = 0 ?>
-        @foreach ($transaction as $t)
-            @if ($user->id == $t->userid)
-                @foreach ( $transDetail as $td)
-                    @if ($t->id == $td->transactionid)
-                    <?php $total += $td->quantity * $book[$td->bookid -1]->price ?>
+        @foreach ($transDetail as $t)
+                    <?php $total += $t->quantity * $t->book->price ?>
                         <div class="row">
                         <hr>
                         <div class="col-md-2">
-                            <p>{{ $book[$td->bookid -1]->title }}</p>
+                            <p>{{ $t->book->title }}</p>
                         </div>
                         <div class="col-md-2">
-                            <p>{{ $book[$td->bookid -1]->author }}</p>
+                            <p>{{ $t->book->author }}</p>
                         </div>
                         <div class="col-md-2">
-                            <p>{{ $book[$td->bookid -1]->price }}</p>
+                            <p>{{ $t->book->price }}</p>
                         </div>
                         <div class="col-md-2">
-                            <p>{{ $td->quantity }}</p>
+                            <p>{{ $t->quantity }}</p>
                         </div>
                         <div class="col-md-1">
-                            {{ $td->quantity * $book[$td->bookid -1]->price }}
+                            {{ $t->quantity * $t->book->price }}
                         </div>
                         <div class="col-sm-auto">
-                            <a href="/book-detail/{{ $td->bookid }}">
+                            <a href="/book-detail/{{ $t->book_id }}">
                                 <button class="btn btn-sm btn-secondary">View Book Detail</button>
                             </a>
                         </div>
-                    @endif
-                @endforeach
-            @endif
         @endforeach
         <hr>
         <h6>Grand Total: IDR {{ $total }}</h6>

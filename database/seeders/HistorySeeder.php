@@ -3,9 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
-class TransactionSeeder extends Seeder
+class HistorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,8 +13,6 @@ class TransactionSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('transactions')->insert([
-            
-        ]);
+        //
     }
 }
